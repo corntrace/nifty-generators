@@ -49,8 +49,12 @@ module Authentication
   end
   
   def redirect_to_target_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
+	if session[:redirect_to].blank? or session[:redirect_to] == logout_path
+	  redirect_to default
+	else
+	  redirect_to session[:redirect_to]
+	end
+	session[:return_to] = nil
   end
   
   private
